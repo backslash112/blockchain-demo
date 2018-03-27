@@ -107,3 +107,8 @@ ENV/
 *~
 *.swp
 *.swo
+
+.DS_Store
+
+cscope/
+cscope.out

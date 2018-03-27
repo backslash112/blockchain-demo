@@ -2,16 +2,18 @@ from uuid import uuid4
 from blockchain import Blockchain
 import json
 from flask import Flask, jsonify, request
+import pdb
 
 
 app = Flask(__name__)
-
 node_identifier = str(uuid4()).replace('-', '')
 blockchain = Blockchain()
+
 
 @app.route('/mine', methods=['GET'])
 def mine():
     # We run the proof of work algorithm to get the next proof...
+    # pdb.set_trace()
     last_block = blockchain.last_block
     last_proof = last_block['proof']
     proof = blockchain.proof_of_work(last_proof)
@@ -45,7 +47,7 @@ def new_trasaction():
     # Create a new transaction
     index = blockchain.new_transaction(values['sender'], values['recipient'], values['amount'])
 
-    response = {'message': f'Transaction will be added to block {index}'}
+    response = {'message': 'Transaction will be added to block {index}'}
     return jsonify(response), 201
 
 @app.route('/chain', methods=['GET'])
@@ -57,5 +59,4 @@ def full_chain():
     return jsonify(response), 200
 
 if __name__ == '__main__':
-    app.run(host = '0.0.0.0', port = 5000)
-    
+    app.run(host = '0.0.0.0', port = 5000)    

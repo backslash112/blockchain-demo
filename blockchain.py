@@ -7,6 +7,8 @@ class Blockchain(object):
     def __init__(self):
         self.chain = []
         self.current_transactions = []
+        # Create the genesis block
+        self.new_block(previous_hash=1, proof=100)
 
     def new_block(self, proof, previous_hash=None):
         """Create a new bloc and add it to the chain
@@ -28,6 +30,7 @@ class Blockchain(object):
 
         # Reset the current list of transactions
         self.current_transactions = []
+        self.chain.append(block)
         return block
 
     def new_transaction(self, sender, recipient, amount):
@@ -93,6 +96,7 @@ class Blockchain(object):
         Returns:
         True if correct
         """
-        guess = f'{last_proof}{proof}'.encode()
-        guss_hash = hashlib.sha256(guess).hexdigest()
+        guess = '{0}{1}'.format(last_proof, proof).encode()
+        guess_hash = hashlib.sha256(guess).hexdigest()
+        print(guess_hash)
         return guess_hash[:4] == '0000'
